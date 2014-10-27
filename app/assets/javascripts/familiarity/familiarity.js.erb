@@ -1,0 +1,40 @@
+function familiarityHashForPage(callback) {
+    if (typeof(callback) != 'function') {
+        callback = function (familiarity_hash) {
+            console.log('familiarity_hash');
+            console.log(familiarity_hash);
+        }
+    }
+    $.get("/familiarity/familiarities.json", function (data) {
+        var familiarity_hash = data[$(location).attr('pathname')]
+        if (familiarity_hash == null) {
+            familiarity_hash = {}
+        }
+        callback(familiarity_hash);
+    });
+}
+
+function familiarityView(enable) {
+    if (typeof(enable) == 'undefined') {
+        enable = true;
+    }
+    if (enable == true) {
+        //Making bubble pop-out //////////////////
+        familiarityHashForPage(function (familiarity_hash) {
+            $.each(familiarity_hash, function (k, v) {
+                var element = $(k);
+                element.addClass('familiarity-bubble-parent');
+            });
+        });
+
+        var _body = $('body');
+        _body.addClass('familiarity-view');
+        var _div = $('<div id="familiarity_dim"></div>');
+        _div.appendTo(_body);
+
+    } else {
+        $('.familiarity-bubble-parent').removeClass('familiarity-bubble-parent');
+        $('#familiarity_dim').remove();
+        $('body').removeClass('familiarity-view');
+    }
+}

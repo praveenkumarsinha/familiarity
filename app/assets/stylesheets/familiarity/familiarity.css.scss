@@ -1,0 +1,85 @@
+.familiaritySwitch {
+  background-color: white;
+  border-color: #787878;
+  border-radius: 12px 12px 0 0;
+  border-style: solid solid none;
+  border-width: 4px;
+  font-size: 13px;
+  padding: 5px;
+  position: fixed;
+  right: 10px;
+  bottom: 0;
+  z-index: 200;
+  text-shadow: 0 2px 2px #777777;
+  cursor: pointer;
+}
+
+.familiar-selector {
+  border: 1px dotted #000 !important;
+  //  background-color: blue;
+  //  opacity: 0.5;
+}
+
+.familiarityPopUpEdit {
+
+  textarea {
+    border: 5px solid #ccc;
+    border-radius: 13px;
+    font-family: verdana;
+    font-size: 10px;
+    min-height: 100px;
+    padding: 5px;
+    width: 350px;
+    background-color: #eef0f0;
+    &:focus {
+      border: 5px solid #ccc;
+      border-radius: 13px;
+      font-family: verdana;
+      font-size: 10px;
+      min-height: 100px;
+      padding: 5px;
+      width: 350px;
+      background-color: #fff;
+    }
+  }
+  a {
+    background-color: #777777;
+    border: 5px solid #ccc;
+    border-radius: 10px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 8px;
+    font-weight: bold;
+    left: 295px;
+    padding: 5px;
+    position: relative;
+    text-transform: uppercase;
+    top: -122px;
+    &:hover {
+      color: #fff !important;
+    }
+  }
+}
+
+.familiarity-view {
+
+  #familiarity_dim {
+    background-color: black;
+    height: 100%;
+    left: 0;
+    opacity: 0.8;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 20;
+  }
+
+  .familiarity-bubble-parent {
+    background-color: #b9b9b9 !important;
+    border: 3px solid #ffffff !important;
+    border-radius: 10px !important;
+    padding: 5px !important;
+    position: relative;
+    z-index: 300;
+  }
+}
