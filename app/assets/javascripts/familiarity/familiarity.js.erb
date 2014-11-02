@@ -5,7 +5,7 @@ function familiarityHashForPage(callback) {
             console.log(familiarity_hash);
         }
     }
-    $.get("/familiarity/familiarities.json", function (data) {
+    $.get("<%= Familiarity::Engine.routes.url_helpers.familiarities_path(format: 'json') %>", function (data) {
         var familiarity_hash = data[$(location).attr('pathname')]
         if (familiarity_hash == null) {
             familiarity_hash = {}
