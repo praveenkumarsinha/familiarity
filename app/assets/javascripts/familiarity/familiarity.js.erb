@@ -1,3 +1,5 @@
+var familiarityView_rendered = false;
+
 function familiarityHashForPage(callback) {
     if (typeof(callback) != 'function') {
         callback = function (familiarity_hash) {
@@ -47,6 +49,8 @@ function familiarityView(enable) {
         var _div = $('<div id="familiarity_dim"></div>');
         _div.appendTo(_body);
 
+        //Marking flag that familiarity_view is rendered
+        familiarityView_rendered = true;
     } else {
         $.each($('.familiarity-bubble-parent'), function (index, element) {
             $(element).removeClass('familiarity-bubble-parent').tooltipster('destroy');
@@ -54,5 +58,19 @@ function familiarityView(enable) {
 //        $('.familiarity-bubble-parent').removeClass('familiarity-bubble-parent');
         $('#familiarity_dim').remove();
         $('body').removeClass('familiarity-view');
+
+        //Marking flag that familiarity_view is removed from viewport
+        familiarityView_rendered = false;
     }
 }
+
+// Show and hide on F1 and ESC key respectively
+$(document).keyup(function (e) {
+    console.log("e.keyCode: " + e.keyCode);
+    if (e.keyCode == 27 && familiarityView_rendered) { //ESC key pressed
+        familiarityView(false);
+    }
+    if (e.keyCode == 112 && !familiarityView_rendered) { //F1 key pressed
+        familiarityView();
+    }
+});
