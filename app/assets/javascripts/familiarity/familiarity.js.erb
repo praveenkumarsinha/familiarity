@@ -30,7 +30,7 @@ function familiarityView(enable) {
                         element.tooltipster({
                             content: $('<span><strong>' + v + '</strong></span>'),
                             maxWidth: 400,
-                            animation: 'slide', //fade, grow, swing, slide, fall
+                            animation: 'fall', //fade, grow, swing, slide, fall
                             autoClose: true, //true, false
                             position: 'bottom-right', //right, left, top, top-right, top-left, bottom, bottom-right, bottom-left
                             delay: 500,
@@ -64,13 +64,3 @@ function familiarityView(enable) {
     }
 }
 
-// Show and hide on F1 and ESC key respectively
-$(document).keyup(function (e) {
-    console.log("e.keyCode: " + e.keyCode);
-    if (e.keyCode == 27 && familiarityView_rendered) { //ESC key pressed
-        familiarityView(false);
-    }
-    if (e.keyCode == 112 && !familiarityView_rendered) { //F1 key pressed
-        familiarityView();
-    }
-});
