@@ -21,11 +21,26 @@ function familiarityView(enable) {
     if (enable == true) {
         //Making bubble pop-out //////////////////
         familiarityHashForPage(function (familiarity_hash) {
-            $.each(familiarity_hash, function (k, v) {
-                var element = $(k);
-                element.addClass('familiarity-bubble-parent');
-            });
-        });
+                    $.each(familiarity_hash, function (k, v) {
+                        var element = $(k);
+                        element.addClass('familiarity-bubble-parent');
+//                        element.attr('title', v);
+                        element.tooltipster({
+                            content: $('<span><strong>' + v + '</strong></span>'),
+                            maxWidth: 400,
+                            animation: 'slide', //fade, grow, swing, slide, fall
+                            autoClose: true, //true, false
+                            position: 'bottom-right', //right, left, top, top-right, top-left, bottom, bottom-right, bottom-left
+                            delay: 500,
+                            speed: 500,
+                            theme: 'tooltipster-default',
+                            touchDevices: false,
+                            trigger: 'custom' //hover, click, custom
+                        });
+                        element.tooltipster('show');
+                    });
+                }
+        );
 
         var _body = $('body');
         _body.addClass('familiarity-view');
@@ -33,7 +48,10 @@ function familiarityView(enable) {
         _div.appendTo(_body);
 
     } else {
-        $('.familiarity-bubble-parent').removeClass('familiarity-bubble-parent');
+        $.each($('.familiarity-bubble-parent'), function (index, element) {
+            $(element).removeClass('familiarity-bubble-parent').tooltipster('destroy');
+        });
+//        $('.familiarity-bubble-parent').removeClass('familiarity-bubble-parent');
         $('#familiarity_dim').remove();
         $('body').removeClass('familiarity-view');
     }

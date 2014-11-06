@@ -10,4 +10,5 @@
 // Read Sprockets README (https://github.com/sstephenson/sprockets#sprockets-directives) for details
 // about supported directives.
 //
+//= require ../familiarity/jquery.tooltipster
 //= require_tree .
