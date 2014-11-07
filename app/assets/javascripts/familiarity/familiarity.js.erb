@@ -1,66 +1,76 @@
-var familiarityView_rendered = false;
+var Familiarity = function () {
+    this.familiarityRenderedFlag = false;
+    this.familiaritiesUrl = '<%= Familiarity::Engine.routes.url_helpers.familiarities_path(format: :json) %>';
 
-function familiarityHashForPage(callback) {
-    if (typeof(callback) != 'function') {
-        callback = function (familiarity_hash) {
-            console.log('familiarity_hash');
-            console.log(familiarity_hash);
+    // Show and hide on F1 and ESC key respectively
+    var _this = this;
+    $(document).keyup(function (e) {
+        if (e.keyCode == 27 && _this.familiarityRenderedFlag) { //ESC key pressed
+            _this.familiarityView(false);
         }
-    }
-    $.get("<%= Familiarity::Engine.routes.url_helpers.familiarities_path(format: 'json') %>", function (data) {
-        var familiarity_hash = data[$(location).attr('pathname')]
-        if (familiarity_hash == null) {
-            familiarity_hash = {}
+        if (e.keyCode == 112 && !_this.familiarityRenderedFlag) { //F1 key pressed
+            _this.familiarityView(true);
         }
-        callback(familiarity_hash);
     });
 }
-
-function familiarityView(enable) {
-    if (typeof(enable) == 'undefined') {
-        enable = true;
-    }
-    if (enable == true) {
-        //Making bubble pop-out //////////////////
-        familiarityHashForPage(function (familiarity_hash) {
-                    $.each(familiarity_hash, function (k, v) {
-                        var element = $(k);
-                        element.addClass('familiarity-bubble-parent');
-//                        element.attr('title', v);
-                        element.tooltipster({
-                            content: $('<span><strong>' + v + '</strong></span>'),
-                            maxWidth: 400,
-                            animation: 'fall', //fade, grow, swing, slide, fall
-                            autoClose: true, //true, false
-                            position: 'bottom-right', //right, left, top, top-right, top-left, bottom, bottom-right, bottom-left
-                            delay: 500,
-                            speed: 500,
-                            theme: 'tooltipster-default',
-                            touchDevices: false,
-                            trigger: 'custom' //hover, click, custom
-                        });
-                        element.tooltipster('show');
-                    });
-                }
-        );
-
-        var _body = $('body');
-        _body.addClass('familiarity-view');
-        var _div = $('<div id="familiarity_dim"></div>');
-        _div.appendTo(_body);
-
-        //Marking flag that familiarity_view is rendered
-        familiarityView_rendered = true;
-    } else {
-        $.each($('.familiarity-bubble-parent'), function (index, element) {
-            $(element).removeClass('familiarity-bubble-parent').tooltipster('destroy');
+Familiarity.prototype = {
+    fetchFamiliarities: function (callback) {
+        if (typeof(callback) != 'function') {
+            callback = function (familiarity_hash) {
+                console.log('familiarity_hash');
+                console.log(familiarity_hash);
+            }
+        }
+        $.get(this.familiaritiesUrl, function (data) {
+            var familiarity_hash = data[$(location).attr('pathname')]
+            if (familiarity_hash == null) {
+                familiarity_hash = {}
+            }
+            callback(familiarity_hash);
         });
-//        $('.familiarity-bubble-parent').removeClass('familiarity-bubble-parent');
-        $('#familiarity_dim').remove();
-        $('body').removeClass('familiarity-view');
+    },
 
-        //Marking flag that familiarity_view is removed from viewport
-        familiarityView_rendered = false;
+    familiarityView: function (enable) {
+        if (typeof(enable) == 'undefined') {
+            enable = true;
+        }
+        if (enable == true) {
+            //Making bubble pop-out //////////////////
+            this.fetchFamiliarities(function (familiarity_hash) {
+                        $.each(familiarity_hash, function (k, v) {
+                            var element = $(k);
+                            element.addClass('familiarity-bubble-parent');
+                            element.tooltipster({
+                                content: $('<span><strong>' + v + '</strong></span>'),
+                                maxWidth: 400,
+                                animation: 'fall', //fade, grow, swing, slide, fall
+                                autoClose: true, //true, false
+                                position: 'bottom-right', //right, left, top, top-right, top-left, bottom, bottom-right, bottom-left
+                                delay: 500,
+                                speed: 500,
+                                theme: 'tooltipster-default',
+                                touchDevices: false,
+                                trigger: 'custom' //hover, click, custom
+                            });
+                            element.tooltipster('show');
+                        });
+                    }
+            );
+
+            $('body').addClass('familiarity-view').append($('<div id="familiarity_dim"></div>'));
+
+            //Marking flag that familiarity_view is rendered
+            this.familiarityRenderedFlag = true;
+        } else {
+            $.each($('.familiarity-bubble-parent'), function (index, element) {
+                $(element).removeClass('familiarity-bubble-parent').tooltipster('destroy').attr('title', null);
+            });
+            $('#familiarity_dim').remove();
+            $('body').removeClass('familiarity-view');
+
+            //Marking flag that familiarity_view is removed from viewport
+            this.familiarityRenderedFlag = false;
+        }
     }
-}
 
+}
