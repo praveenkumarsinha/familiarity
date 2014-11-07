@@ -20,115 +20,128 @@ jQuery.fn.getPath = function () {
 
     return path;
 };
-var familiarityEditorialSet = {};
-function findOrBuildPopup(selection_path, inner_text) {
-    if (typeof(inner_text) == 'undefined') {
-        inner_text = "";
-    }
-    var _div = familiarityEditorialSet[selection_path];
-    if (_div == null) {
-        var _div = $('<div class="familiarityPopUpEdit" style="z-index: 20;position: absolute;left: 0;top: 0;display: none"><textarea placeholder="Short sweet tutorial goes in here."></textarea><br/><a>Close</a></div>');
 
-        //Adding 'Close' handler
-        _div.children('a').click(function () {
-            $(this).parents('div.familiarityPopUpEdit').hide();
-        });
-        //Populating textarea
-        _div.children('textarea').val(inner_text);
-
-        familiarityEditorialSet[selection_path] = _div;
-
-        _div.appendTo($('body'));
-    }
-    $.each(familiarityEditorialSet, function (k, v) {
-        v.hide();
-    });
-
-    return _div;
+var FamiliarityAdmin = function () {
+    this.familiarityEditorialSet = {};
+    this.familiaritySaveUrl = '<%=Familiarity::Engine.routes.url_helpers.save_familiarities_path(format: :json)%>';
+    this.familiaritiesUrl = '<%= Familiarity::Engine.routes.url_helpers.familiarities_path(format: :json) %>';
 }
-function startFamiliarizing() {
-//    $('body *').hover(function (e) {
-    $('.familiarityTag').bind("mouseenter.myFamiliarity",function (e) {
-        var _this = $(this);
-        var currentSelectionPath = _this.getPath();
-        console.log(currentSelectionPath);
-        _this.addClass('familiar-selector');
-        _this.parents().removeClass('familiar-selector');
 
-        e.stopImmediatePropagation();
-    }).bind("mouseleave.myFamiliarity",function (e) {
-                var _this = $(this);
-                var currentSelectionPath = _this.getPath();
-                _this.removeClass('familiar-selector');
+FamiliarityAdmin.familiaritySwitchBoard = function () {
+    var familiarity_admin = new FamiliarityAdmin();
 
-                e.stopImmediatePropagation();
-            }).bind("click.myFamiliarity", function (e) {
-                var _this = $(this);
-                var currentSelectionPath = _this.getPath();
+    var switch_state = 'On';
+    var _div = $('<div class="familiaritySwitch"></div>').text('Switch ' + switch_state + ' familiarity!').click(function () {
+        familiarity_admin.familiaritySwitch(switch_state);
+        switch_state = (switch_state == "On") ? "Off" : "On";
+        $(this).text('Switch ' + switch_state + ' familiarity!');
+    }).appendTo($('body'));
+}
 
-                var _left_position = _this.position().left;
-                var _top_position = _this.position().top + _this.height();
+FamiliarityAdmin.prototype = {
+    findOrBuildPopup: function (selection_path, inner_text) {
+        if (typeof(inner_text) == 'undefined') {
+            inner_text = "";
+        }
+        var _div = this.familiarityEditorialSet[selection_path];
+        if (_div == null) {
+            var _div = $('<div class="familiarityPopUpEdit" style="z-index: 20;position: absolute;left: 0;top: 0;display: none"><textarea placeholder="Short sweet tutorial goes in here."></textarea><br/><a>Close</a></div>');
 
-                var _div = findOrBuildPopup(currentSelectionPath).css({left: _left_position, top: _top_position}).show();
-
-                console.log(_this);
-                e.preventDefault();
-                e.stopPropagation();
+            //Adding 'Close' handler
+            _div.children('a').click(function () {
+                $(this).parents('div.familiarityPopUpEdit').hide();
             });
-}
-function stopFamiliarizing() {
-    $('.familiarityTag').unbind('.myFamiliarity');
-}
-function saveToBackEnd() {
-    var _result_hash = {}
-    $.each(familiarityEditorialSet, function (k, v) {
-        if (v.children('textarea').val().trim().length > 0) {
-            _result_hash[k] = v.children('textarea').val();
+
+            //Populating textarea
+            _div.children('textarea').val(inner_text);
+
+            this.familiarityEditorialSet[selection_path] = _div;
+
+            _div.appendTo($('body'));
         }
-    })
-    console.log(_result_hash);
-    jQuery.post('<%=Familiarity::Engine.routes.url_helpers.save_familiarities_path(format: :json)%>', {from_page: $(location).attr('pathname'), 'familiarity_hash': _result_hash});
-}
-function familiaritySwitch(familiarity_switch) {
-    if (familiarity_switch == "Off") {
-        stopFamiliarizing();
-        $('.familiarityPopUpEdit').hide();
-        if (confirm("Do you want to save the collected familiarity data?")) {
-            saveToBackEnd();
-        }
-    }
-    $.each($('body *:not(.familiaritySwitch, .familiarityPopUpEdit)'), function (i, e) {
-        if (familiarity_switch == "On") {
-            if ($(e).parents('.familiarityPopUpEdit').length <= 0) {
-                $(e).addClass('familiarityTag');
-            }
-        } else {
-            $(e).removeClass('familiarityTag');
-        }
-    });
-    if (familiarity_switch == "On") {
-        startFamiliarizing();
-        $.get("<%= Familiarity::Engine.routes.url_helpers.familiarities_path(format: 'json') %>", function (data) {
-            familiarity_hash = data[$(location).attr('pathname')]
-            if (familiarity_hash == null) {
-                familiarity_hash = {}
-            }
-            $.each(familiarity_hash, function (k, v) {
-                findOrBuildPopup(k, v);
-            });
+        $.each(this.familiarityEditorialSet, function (k, v) {
+            v.hide();
         });
+        return _div;
+    },
+    startFamiliarizing: function () {
+        var _current_object = this;
+        $('.familiarityTag').bind("mouseenter.myFamiliarity",function (e) {
+            var _this = $(this);
+            var currentSelectionPath = _this.getPath();
+//            console.log(currentSelectionPath);
+            _this.addClass('familiar-selector');
+            _this.parents().removeClass('familiar-selector');
+
+            e.stopImmediatePropagation();
+        }).bind("mouseleave.myFamiliarity",function (e) {
+                    var _this = $(this);
+                    var currentSelectionPath = _this.getPath();
+                    _this.removeClass('familiar-selector');
+
+                    e.stopImmediatePropagation();
+                }).bind("click.myFamiliarity", function (e) {
+                    var _this = $(this);
+                    var currentSelectionPath = _this.getPath();
+
+                    var _left_position = _this.position().left;
+                    var _top_position = _this.position().top + _this.height();
+
+                    var _div = _current_object.findOrBuildPopup(currentSelectionPath).css({left: _left_position, top: _top_position}).show();
+
+//                    console.log(_this);
+                    e.preventDefault();
+                    e.stopPropagation();
+                });
+    },
+
+    saveToBackEnd: function () {
+        var _result_hash = {}
+        $.each(this.familiarityEditorialSet, function (k, v) {
+            if (v.children('textarea').val().trim().length > 0) {
+                _result_hash[k] = v.children('textarea').val();
+            }
+        })
+        jQuery.post(this.familiaritySaveUrl, {from_page: $(location).attr('pathname'), 'familiarity_hash': _result_hash});
+    },
+
+    stopFamiliarizing: function () {
+        $('.familiarityTag').unbind('.myFamiliarity');
+    },
+
+    familiaritySwitch: function (i_switch) {
+        if (i_switch == "Off") {
+            this.stopFamiliarizing();
+            $('.familiarityPopUpEdit').hide();
+            if (confirm("Do you want to save the collected familiarity data?")) {
+                this.saveToBackEnd();
+            }
+        }
+        $.each($('body *:not(.familiaritySwitch, .familiarityPopUpEdit)'), function (i, e) {
+            if (i_switch == "On") {
+                if ($(e).parents('.familiarityPopUpEdit').length <= 0) {
+                    $(e).addClass('familiarityTag');
+                }
+            } else {
+                $(e).removeClass('familiarityTag');
+            }
+        });
+        if (i_switch == "On") {
+            var _current_object = this;
+            this.startFamiliarizing();
+            $.get(this.familiaritiesUrl, function (data) {
+                var familiarity_hash = data[$(location).attr('pathname')]
+                if (familiarity_hash == null) {
+                    familiarity_hash = {}
+                }
+                $.each(familiarity_hash, function (k, v) {
+                    _current_object.findOrBuildPopup(k, v);
+                });
+            });
+        }
     }
 }
 
-function familiaritySwitchBoard() {
-    var familiaritySwitched = 'On';
-    var _div = $('<div class="familiaritySwitch"></div>');
-    _div.text('Switch ' + familiaritySwitched + ' familiarity!');
-    _div.click(function () {
-        familiaritySwitch(familiaritySwitched);
-        familiaritySwitched = (familiaritySwitched == "On") ? "Off" : "On";
-        $(this).text('Switch ' + familiaritySwitched + ' familiarity!');
-    });
-    _div.appendTo($('body'));
-}
-$(document).on("page:change", familiaritySwitchBoard);
+$(document).on("page:change", function () {
+    FamiliarityAdmin.familiaritySwitchBoard();
+});
