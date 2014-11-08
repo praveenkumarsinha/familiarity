@@ -7,7 +7,7 @@ var Familiarity = function () {
 
     // Show and hide on F1 and ESC key respectively
     var _this = this;
-    $(document).keyup(function (e) {
+    $('body').keyup(function (e) {
         if (e.keyCode == 27 && _this.familiarityRenderedFlag) { //ESC key pressed
             _this.familiarityView(false);
         }
@@ -20,7 +20,12 @@ var Familiarity = function () {
         if (e.keyCode == 39 && _this.familiarityRenderedFlag) { //RIGHT arrow key pressed
             _this.showNextBubble()
         }
-    });
+    }).mousedown(function (e) {
+                if (_this.familiarityRenderedFlag) { //Show next bubble on mouse down('click')
+                    _this.showNextBubble()
+                }
+
+            });
 }
 Familiarity.prototype = {
     familiarity_hash_keys: function () {
@@ -49,9 +54,9 @@ Familiarity.prototype = {
         this.showOneByOne();
     },
     showOneByOne: function () {
-        console.log(this.familiarity_hash_pointer);
-        console.log(this.familiarity_hash);
-        console.log(this.familiarity_bubbles);
+//        console.log(this.familiarity_hash_pointer);
+//        console.log(this.familiarity_hash);
+//        console.log(this.familiarity_bubbles);
         this.hideFBubbles();
         return this.showFBubble();
     },
@@ -63,9 +68,6 @@ Familiarity.prototype = {
         if (element.length <= 0) {
             return false;
         }
-//        $('html, body').animate({
-//            scrollTop: element.offset().top
-//        }, 500);
 
         element.addClass('familiarity-bubble-parent').tooltipster({
             content: $('<span><strong>' + content.replace(/\n/g, "<br/>") + '</strong></span>'),
