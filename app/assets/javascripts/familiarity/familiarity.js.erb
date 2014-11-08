@@ -41,7 +41,7 @@ Familiarity.prototype = {
                             var element = $(k);
                             element.addClass('familiarity-bubble-parent');
                             element.tooltipster({
-                                content: $('<span><strong>' + v + '</strong></span>'),
+                                content: $('<span><strong>' + v.replace(/\n/g, "<br/>") + '</strong></span>'),
                                 maxWidth: 400,
                                 animation: 'fall', //fade, grow, swing, slide, fall
                                 autoClose: true, //true, false
