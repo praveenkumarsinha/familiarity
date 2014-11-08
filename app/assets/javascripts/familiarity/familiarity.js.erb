@@ -67,14 +67,14 @@ Familiarity.prototype = {
 //            scrollTop: element.offset().top
 //        }, 500);
 
-        element.addClass('familiarity-bubble-parent', {duration: 2000}).tooltipster({
+        element.addClass('familiarity-bubble-parent').tooltipster({
             content: $('<span><strong>' + content.replace(/\n/g, "<br/>") + '</strong></span>'),
             maxWidth: 400,
             animation: 'grow', //fade, grow, swing, slide, fall
             autoClose: true, //true, false
             position: 'bottom-right', //right, left, top, top-right, top-left, bottom, bottom-right, bottom-left
-            delay: 1000,
-            speed: 1000,
+            delay: 700,
+            speed: 700,
             theme: 'tooltipster-default',
             touchDevices: false,
             trigger: 'custom' //hover, click, custom
@@ -85,7 +85,7 @@ Familiarity.prototype = {
     },
     hideFBubbles: function () {
         while (this.familiarity_bubbles.length > 0) {
-            this.familiarity_bubbles.pop().tooltipster('destroy').removeClass('familiarity-bubble-parent', {duration: 1000}).attr('title', null);
+            this.familiarity_bubbles.pop().tooltipster('destroy').removeClass('familiarity-bubble-parent').attr('title', null);
         }
     },
     fetchFamiliarities: function (callback) {
