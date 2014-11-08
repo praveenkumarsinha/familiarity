@@ -1,6 +1,9 @@
 var Familiarity = function () {
     this.familiarityRenderedFlag = false;
     this.familiaritiesUrl = '<%= Familiarity::Engine.routes.url_helpers.familiarities_path(format: :json) %>';
+    this.familiarity_hash_pointer = -1;
+    this.familiarity_hash = {};
+    this.familiarity_bubbles = [];
 
     // Show and hide on F1 and ESC key respectively
     var _this = this;
@@ -11,9 +14,80 @@ var Familiarity = function () {
         if (e.keyCode == 112 && !_this.familiarityRenderedFlag) { //F1 key pressed
             _this.familiarityView(true);
         }
+        if (e.keyCode == 37) { //LEFT arrow key pressed
+            _this.showPreviousBubble();
+        }
+        if (e.keyCode == 39) { //RIGHT arrow key pressed
+            _this.showNextBubble()
+        }
     });
 }
 Familiarity.prototype = {
+    familiarity_hash_keys: function () {
+        return($.map(this.familiarity_hash, function (v, k) {
+            return k;
+        }));
+    },
+    showNextBubble: function () {
+        if (this.familiarity_hash_keys().length <= 0) {
+            return false;
+        }
+        this.familiarity_hash_pointer++;
+        if ((this.familiarity_hash_pointer + 1) > this.familiarity_hash_keys().length) {
+            this.familiarity_hash_pointer = 0;
+        }
+        this.showOneByOne();
+    },
+    showPreviousBubble: function () {
+        if (this.familiarity_hash_keys().length <= 0) {
+            return false;
+        }
+        this.familiarity_hash_pointer--;
+        if (this.familiarity_hash_pointer < 0) {
+            this.familiarity_hash_pointer = this.familiarity_hash_keys().length - 1;
+        }
+        this.showOneByOne();
+    },
+    showOneByOne: function () {
+        console.log(this.familiarity_hash_pointer);
+        console.log(this.familiarity_hash);
+        console.log(this.familiarity_bubbles);
+        this.hideFBubbles();
+        return this.showFBubble();
+    },
+    showFBubble: function () {
+        var current_bubble_key = this.familiarity_hash_keys()[this.familiarity_hash_pointer];
+        var element = $(current_bubble_key)
+        var content = this.familiarity_hash[current_bubble_key];
+
+        if (element.length <= 0) {
+            return false;
+        }
+//        $('html, body').animate({
+//            scrollTop: element.offset().top
+//        }, 500);
+
+        element.addClass('familiarity-bubble-parent', {duration: 2000}).tooltipster({
+            content: $('<span><strong>' + content.replace(/\n/g, "<br/>") + '</strong></span>'),
+            maxWidth: 400,
+            animation: 'grow', //fade, grow, swing, slide, fall
+            autoClose: true, //true, false
+            position: 'bottom-right', //right, left, top, top-right, top-left, bottom, bottom-right, bottom-left
+            delay: 1000,
+            speed: 1000,
+            theme: 'tooltipster-default',
+            touchDevices: false,
+            trigger: 'custom' //hover, click, custom
+        });
+        element.tooltipster('show');
+        this.familiarity_bubbles.push(element)
+        return true;
+    },
+    hideFBubbles: function () {
+        while (this.familiarity_bubbles.length > 0) {
+            this.familiarity_bubbles.pop().tooltipster('destroy').removeClass('familiarity-bubble-parent', {duration: 1000}).attr('title', null);
+        }
+    },
     fetchFamiliarities: function (callback) {
         if (typeof(callback) != 'function') {
             callback = function (familiarity_hash) {
@@ -21,50 +95,38 @@ Familiarity.prototype = {
                 console.log(familiarity_hash);
             }
         }
+        var _this = this;
         $.get(this.familiaritiesUrl, function (data) {
             var familiarity_hash = data[$(location).attr('pathname')]
             if (familiarity_hash == null) {
                 familiarity_hash = {}
             }
+            _this.familiarity_hash = familiarity_hash;
             callback(familiarity_hash);
         });
     },
-
     familiarityView: function (enable) {
+        var _this = this;
         if (typeof(enable) == 'undefined') {
             enable = true;
         }
         if (enable == true) {
+            //Rendering overlay
+            $('body').addClass('familiarity-view').append($('<div id="familiarity_dim"></div>'));
+
             //Making bubble pop-out //////////////////
             this.fetchFamiliarities(function (familiarity_hash) {
-                        $.each(familiarity_hash, function (k, v) {
-                            var element = $(k);
-                            element.addClass('familiarity-bubble-parent');
-                            element.tooltipster({
-                                content: $('<span><strong>' + v.replace(/\n/g, "<br/>") + '</strong></span>'),
-                                maxWidth: 400,
-                                animation: 'fall', //fade, grow, swing, slide, fall
-                                autoClose: true, //true, false
-                                position: 'bottom-right', //right, left, top, top-right, top-left, bottom, bottom-right, bottom-left
-                                delay: 500,
-                                speed: 500,
-                                theme: 'tooltipster-default',
-                                touchDevices: false,
-                                trigger: 'custom' //hover, click, custom
-                            });
-                            element.tooltipster('show');
-                        });
+                        _this.showNextBubble();
                     }
             );
-
-            $('body').addClass('familiarity-view').append($('<div id="familiarity_dim"></div>'));
 
             //Marking flag that familiarity_view is rendered
             this.familiarityRenderedFlag = true;
         } else {
-            $.each($('.familiarity-bubble-parent'), function (index, element) {
-                $(element).removeClass('familiarity-bubble-parent').tooltipster('destroy').attr('title', null);
-            });
+            //Removing bubbles
+            _this.hideFBubbles();
+
+            //Removing rendered overlay
             $('#familiarity_dim').remove();
             $('body').removeClass('familiarity-view');
 
