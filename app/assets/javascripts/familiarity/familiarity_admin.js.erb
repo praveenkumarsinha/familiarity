@@ -31,6 +31,7 @@ FamiliarityAdmin.familiaritySwitchBoard = function () {
     var familiarity_admin = new FamiliarityAdmin();
 
     var switch_state = 'On';
+    $('div.familiaritySwitch').remove();
     var _div = $('<div class="familiaritySwitch"></div>').text('Switch ' + switch_state + ' familiarity!').click(function () {
         familiarity_admin.familiaritySwitch(switch_state);
         switch_state = (switch_state == "On") ? "Off" : "On";

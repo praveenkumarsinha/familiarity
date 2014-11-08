@@ -14,10 +14,10 @@ var Familiarity = function () {
         if (e.keyCode == 112 && !_this.familiarityRenderedFlag) { //F1 key pressed
             _this.familiarityView(true);
         }
-        if (e.keyCode == 37) { //LEFT arrow key pressed
+        if (e.keyCode == 37 && _this.familiarityRenderedFlag) { //LEFT arrow key pressed
             _this.showPreviousBubble();
         }
-        if (e.keyCode == 39) { //RIGHT arrow key pressed
+        if (e.keyCode == 39 && _this.familiarityRenderedFlag) { //RIGHT arrow key pressed
             _this.showNextBubble()
         }
     });
