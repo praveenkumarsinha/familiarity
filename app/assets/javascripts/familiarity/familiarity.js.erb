@@ -69,19 +69,24 @@ Familiarity.prototype = {
             return false;
         }
 
-        element.addClass('familiarity-bubble-parent').tooltipster({
-            content: $('<span><strong>' + content.replace(/\n/g, "<br/>") + '</strong></span>'),
-            maxWidth: 400,
-            animation: 'grow', //fade, grow, swing, slide, fall
-            autoClose: true, //true, false
-            position: 'bottom-right', //right, left, top, top-right, top-left, bottom, bottom-right, bottom-left
-            delay: 700,
-            speed: 700,
-            theme: 'tooltipster-default',
-            touchDevices: false,
-            trigger: 'custom' //hover, click, custom
-        });
+        element.addClass('familiarity-bubble-parent')
+                .tooltipster({
+                    content: $('<span><strong>' + content.replace(/\n/g, "<br/>") + '</strong></span>'),
+                    maxWidth: 400,
+                    animation: 'grow', //fade, grow, swing, slide, fall
+                    autoClose: true, //true, false
+                    position: 'bottom-right', //right, left, top, top-right, top-left, bottom, bottom-right, bottom-left
+                    delay: 700,
+                    speed: 700,
+                    theme: 'tooltipster-default',
+                    touchDevices: false,
+                    trigger: 'custom' //hover, click, custom
+                });
         element.tooltipster('show');
+//        console.log(element.css('background-color'));
+//        if (element.css('background-color') == 'transparent') {
+//            element.css('background-color', 'white')
+//        }
         this.familiarity_bubbles.push(element)
         return true;
     },
