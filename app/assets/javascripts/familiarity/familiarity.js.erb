@@ -103,17 +103,21 @@ Familiarity.prototype = {
             enable = true;
         }
         if (enable == true) {
-            //Rendering overlay
-            $('body').addClass('familiarity-view').append($('<div id="familiarity_dim"></div>'));
-
             //Making bubble pop-out //////////////////
             this.fetchFamiliarities(function (familiarity_hash) {
-                        _this.showNextBubble();
+                        if (_this.familiarity_hash_keys().length > 0) {
+                            //Rendering overlay
+                            $('body').addClass('familiarity-view').append($('<div id="familiarity_dim"></div>'));
+
+                            //Rendering first bubble (via Next Bubble)
+                            _this.showNextBubble();
+
+                            //Marking flag that familiarity_view is rendered
+                            _this.familiarityRenderedFlag = true;
+                        }
                     }
             );
 
-            //Marking flag that familiarity_view is rendered
-            this.familiarityRenderedFlag = true;
         } else {
             //Removing bubbles
             _this.hideFBubbles();
