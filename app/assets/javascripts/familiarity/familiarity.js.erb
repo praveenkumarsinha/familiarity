@@ -4,28 +4,13 @@ var Familiarity = function () {
     this.familiarity_hash_pointer = -1;
     this.familiarity_hash = {};
     this.familiarity_bubbles = [];
-
-    // Show and hide on F1 and ESC key respectively
-    var _this = this;
-    $('body').keyup(function (e) {
-        if (e.keyCode == 27 && _this.familiarityRenderedFlag) { //ESC key pressed
-            _this.familiarityView(false);
-        }
-        if (e.keyCode == 112 && !_this.familiarityRenderedFlag) { //F1 key pressed
-            _this.familiarityView(true);
-        }
-        if (e.keyCode == 37 && _this.familiarityRenderedFlag) { //LEFT arrow key pressed
-            _this.showPreviousBubble();
-        }
-        if (e.keyCode == 39 && _this.familiarityRenderedFlag) { //RIGHT arrow key pressed
-            _this.showNextBubble()
-        }
-    }).mousedown(function (e) {
-                if (_this.familiarityRenderedFlag) { //Show next bubble on mouse down('click')
-                    _this.showNextBubble()
-                }
-
-            });
+    Familiarity.setCurrentObject(this);
+}
+Familiarity.setCurrentObject = function (current_object) {
+    return(this.currentObject = current_object);
+}
+Familiarity.getCurrentObject = function () {
+    return this.currentObject
 }
 Familiarity.prototype = {
     familiarity_hash_keys: function () {
@@ -143,3 +128,27 @@ Familiarity.prototype = {
     }
 
 }
+
+$(document).on("page:change", function () {
+// Show and hide on F1 and ESC key respectively
+    $('body').keyup(function (e) {
+        var _this = Familiarity.getCurrentObject();
+        if (e.keyCode == 27 && _this.familiarityRenderedFlag) { //ESC key pressed
+            _this.familiarityView(false);
+        }
+        if (e.keyCode == 112 && !_this.familiarityRenderedFlag) { //F1 key pressed
+            _this.familiarityView(true);
+        }
+        if (e.keyCode == 37 && _this.familiarityRenderedFlag) { //LEFT arrow key pressed
+            _this.showPreviousBubble();
+        }
+        if (e.keyCode == 39 && _this.familiarityRenderedFlag) { //RIGHT arrow key pressed
+            _this.showNextBubble()
+        }
+    }).mousedown(function (e) {
+                var _this = Familiarity.getCurrentObject();
+                if (_this.familiarityRenderedFlag) { //Show next bubble on mouse down('click')
+                    _this.showNextBubble()
+                }
+            });
+});
