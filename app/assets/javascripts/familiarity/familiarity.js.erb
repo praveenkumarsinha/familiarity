@@ -1,4 +1,10 @@
-var Familiarity = function () {
+var Familiarity = function (options) {
+    this.escape_to_exit = options.escape_to_exit;
+    this.f1_to_start = options.f1_to_start;
+    this.show_tips_recursively = options.show_tips_recursively;
+    this.mandatory_all_tips = options.mandatory_all_tips;
+    this.traverse_back = options.traverse_back;
+
     this.familiarityRenderedFlag = false;
     this.familiaritiesUrl = '<%= Familiarity::Engine.routes.url_helpers.familiarities_path(format: :json) %>';
     this.familiarity_hash_pointer = -1;
@@ -24,7 +30,12 @@ Familiarity.prototype = {
         }
         this.familiarity_hash_pointer++;
         if ((this.familiarity_hash_pointer + 1) > this.familiarity_hash_keys().length) {
-            this.familiarity_hash_pointer = 0;
+            if (this.show_tips_recursively) {
+                this.familiarity_hash_pointer = 0;
+            } else {
+                this.familiarityView(false);
+                return true;
+            }
         }
         this.showOneByOne();
     },
@@ -32,9 +43,14 @@ Familiarity.prototype = {
         if (this.familiarity_hash_keys().length <= 0) {
             return false;
         }
+        if (!this.traverse_back) {
+            return false;
+        }
         this.familiarity_hash_pointer--;
         if (this.familiarity_hash_pointer < 0) {
-            this.familiarity_hash_pointer = this.familiarity_hash_keys().length - 1;
+            if (this.show_tips_recursively) {
+                this.familiarity_hash_pointer = this.familiarity_hash_keys().length - 1;
+            }
         }
         this.showOneByOne();
     },
@@ -119,6 +135,15 @@ Familiarity.prototype = {
             );
 
         } else {
+
+            // If option 'mandatory_all_tips' is true then make sure all tips has been rendered
+            // before exit of familiarity view
+            if (this.mandatory_all_tips) {
+                if ((this.familiarity_hash_pointer + 1) <= this.familiarity_hash_keys().length) {
+                    return false;
+                }
+            }
+
             //Removing bubbles
             _this.hideFBubbles();
 
@@ -137,10 +162,10 @@ $(document).on("page:change", function () {
 // Show and hide on F1 and ESC key respectively
     $('body').keyup(function (e) {
         var _this = Familiarity.getCurrentObject();
-        if (typeof(_this) != "undefined" && e.keyCode == 27 && _this.familiarityRenderedFlag) { //ESC key pressed
+        if (typeof(_this) != "undefined" && e.keyCode == 27 && _this.escape_to_exit && _this.familiarityRenderedFlag) { //ESC key pressed
             _this.familiarityView(false);
         }
-        if (typeof(_this) != "undefined" && e.keyCode == 112 && !_this.familiarityRenderedFlag) { //F1 key pressed
+        if (typeof(_this) != "undefined" && e.keyCode == 112 && _this.f1_to_start && !_this.familiarityRenderedFlag) { //F1 key pressed
             _this.familiarityView(true);
         }
         if (typeof(_this) != "undefined" && e.keyCode == 37 && _this.familiarityRenderedFlag) { //LEFT arrow key pressed

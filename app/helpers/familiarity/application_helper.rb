@@ -6,17 +6,26 @@ module Familiarity
       end
     end
 
-    def familiarityView(duration_in_days = 0.001)
+    def familiarityView(options={})
+      _options= {
+          escape_to_exit: true,
+          f1_to_start: true,
+          show_tips_recursively: false,
+          mandatory_all_tips: true,
+          traverse_back: true,
+          remember_duration: 0.001 #In Days
+      }.merge(options)
+
       content_tag('script') do
         raw <<END_SQL
         var cn = 'familiarity_' + window.location.pathname.replace(/\\//g,'A');
         if (typeof $.cookie(cn) == "undefined")
           {
-              var familiarity = new Familiarity();
+              var familiarity = new Familiarity(#{_options.to_json});
               familiarity.familiarityView(true);
               console.log($.cookie(cn, new Date(), {
                   path: window.location.pathname,
-                  expires: #{duration_in_days}
+                  expires: #{_options[:remember_duration]}
               }));
           }
 END_SQL
