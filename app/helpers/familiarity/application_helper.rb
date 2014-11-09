@@ -10,9 +10,9 @@ module Familiarity
       content_tag('script') do
         raw <<END_SQL
           $ (document).on("page:change", function () {
-            var familiarity = new Familiarity();
             if (typeof $. cookie('familiarity') == "undefined")
               {
+                  var familiarity = new Familiarity();
                   familiarity.familiarityView(true);
                   console.log($. cookie('familiarity', new Date(), {
                       path: window.location.pathname,
