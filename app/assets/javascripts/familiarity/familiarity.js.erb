@@ -5,11 +5,8 @@ var Familiarity = function (options) {
     this.mandatory_all_tips = options.mandatory_all_tips;
     this.traverse_back = options.traverse_back;
 
-    this.familiarityRenderedFlag = false;
     this.familiaritiesUrl = '<%= Familiarity::Engine.routes.url_helpers.familiarities_path(format: :json) %>';
-    this.familiarity_hash_pointer = -1;
-    this.familiarity_hash = {};
-    this.familiarity_bubbles = [];
+    this.reset();
     Familiarity.setCurrentObject(this);
 }
 Familiarity.setCurrentObject = function (current_object) {
@@ -19,6 +16,13 @@ Familiarity.getCurrentObject = function () {
     return this.currentObject
 }
 Familiarity.prototype = {
+    reset: function () {
+        this.familiarityAllTipsVisited = false;
+        this.familiarityRenderedFlag = false;
+        this.familiarity_hash_pointer = -1;
+        this.familiarity_hash = {};
+        this.familiarity_bubbles = [];
+    },
     familiarity_hash_keys: function () {
         return($.map(this.familiarity_hash, function (v, k) {
             return k;
@@ -30,6 +34,7 @@ Familiarity.prototype = {
         }
         this.familiarity_hash_pointer++;
         if ((this.familiarity_hash_pointer + 1) > this.familiarity_hash_keys().length) {
+            this.familiarityAllTipsVisited = true
             if (this.show_tips_recursively) {
                 this.familiarity_hash_pointer = 0;
             } else {
@@ -119,6 +124,9 @@ Familiarity.prototype = {
             enable = true;
         }
         if (enable == true) {
+            //Re-setting all values and variables (in case is there any half done state)
+            this.reset();
+
             //Making bubble pop-out //////////////////
             this.fetchFamiliarities(function (familiarity_hash) {
                         if (_this.familiarity_hash_keys().length > 0) {
@@ -138,10 +146,8 @@ Familiarity.prototype = {
 
             // If option 'mandatory_all_tips' is true then make sure all tips has been rendered
             // before exit of familiarity view
-            if (this.mandatory_all_tips) {
-                if ((this.familiarity_hash_pointer + 1) <= this.familiarity_hash_keys().length) {
-                    return false;
-                }
+            if (this.mandatory_all_tips && (!this.familiarityAllTipsVisited)) {
+                return false;
             }
 
             //Removing bubbles
