@@ -9,11 +9,12 @@ module Familiarity
     def familiarityView(duration_in_days = 0.001)
       content_tag('script') do
         raw <<END_SQL
-        if (typeof $. cookie('familiarity') == "undefined")
+        var cn = 'familiarity_' + window.location.pathname.replace(/\\//g,'A');
+        if (typeof $.cookie(cn) == "undefined")
           {
               var familiarity = new Familiarity();
               familiarity.familiarityView(true);
-              console.log($. cookie('familiarity', new Date(), {
+              console.log($.cookie(cn, new Date(), {
                   path: window.location.pathname,
                   expires: #{duration_in_days}
               }));

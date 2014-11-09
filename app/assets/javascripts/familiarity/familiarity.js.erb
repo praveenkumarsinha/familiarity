@@ -137,21 +137,21 @@ $(document).on("page:change", function () {
 // Show and hide on F1 and ESC key respectively
     $('body').keyup(function (e) {
         var _this = Familiarity.getCurrentObject();
-        if (e.keyCode == 27 && _this.familiarityRenderedFlag) { //ESC key pressed
+        if (typeof(_this) != "undefined" && e.keyCode == 27 && _this.familiarityRenderedFlag) { //ESC key pressed
             _this.familiarityView(false);
         }
-        if (e.keyCode == 112 && !_this.familiarityRenderedFlag) { //F1 key pressed
+        if (typeof(_this) != "undefined" && e.keyCode == 112 && !_this.familiarityRenderedFlag) { //F1 key pressed
             _this.familiarityView(true);
         }
-        if (e.keyCode == 37 && _this.familiarityRenderedFlag) { //LEFT arrow key pressed
+        if (typeof(_this) != "undefined" && e.keyCode == 37 && _this.familiarityRenderedFlag) { //LEFT arrow key pressed
             _this.showPreviousBubble();
         }
-        if (e.keyCode == 39 && _this.familiarityRenderedFlag) { //RIGHT arrow key pressed
+        if (typeof(_this) != "undefined" && e.keyCode == 39 && _this.familiarityRenderedFlag) { //RIGHT arrow key pressed
             _this.showNextBubble()
         }
     }).mousedown(function (e) {
                 var _this = Familiarity.getCurrentObject();
-                if (_this.familiarityRenderedFlag) { //Show next bubble on mouse down('click')
+                if (typeof(_this) != "undefined" && _this.familiarityRenderedFlag) { //Show next bubble on mouse down('click')
                     _this.showNextBubble()
                 }
             });
