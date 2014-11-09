@@ -14,14 +14,3 @@
 //= require ../familiarity/jquery.tooltipster
 //= require_tree .
 
-
-$(document).on("page:change", function () {
-    var familiarity = new Familiarity();
-    if (typeof $.cookie('familiarity') == "undefined") {
-        familiarity.familiarityView(true);
-        console.log($.cookie('familiarity', new Date(), {
-            path: window.location.pathname,
-            expires: 0.001 //TODO: This should be no of days and should be set to some valid tangible figure
-        }));
-    }
-});
