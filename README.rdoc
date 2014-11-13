@@ -12,29 +12,29 @@ Then execute:
 
     $ bundle
 
-Mount Familiary at specific location (from routes.rb of application):
+Mount Familiarity at specific location (from routes.rb of application):
 
       mount Familiarity::Engine, at: "/some_specific_location"
 
-Add javascript(s) in applciation manifest (most probably from app/assets/javascripts/application.js):
+Add javascript(s) in application manifest (most probably from app/assets/javascripts/application.js):
 
       //= require familiarity/application
 
-Add stylesheet(s) in applciation manifest (most probably from app/assets/stylesheets/application.css):
+Add stylesheet(s) in application manifest (most probably from app/assets/stylesheets/application.css):
 
        *= require familiarity/application
 
-Add familiarySwitchBoard on all the pages (append following helper at the end as body content in layout):
+Add familiarity's switch-board on all the pages (append following helper at the end as body content in layout):
 
       <%= familiaritySwitchBoard %>
 
-Add familiaryView on all the pages (append following helper at the end as body content in layout):
+Add familiarity's view on all the pages (append following helper at the end as body content in layout):
 
       <%= familiarityView %>
 
 == Helpers
 
-To provide a switch board where an user(or may be a bunch of users in any specific environmant of application) want to add/edit/update or delete annotations on any page .
+To provide a switch board where an user (or may be a bunch of users in any specific environment of application) want to add/edit/update or delete annotations on any page .
 
     <%= familiaritySwitchBoard %>
 
@@ -43,12 +43,12 @@ To provide annotations view of elements, one element at a time on the first visi
 
     <%= familiarityView %>
     <%= familiarityView({
-            escape_to_exit: true, #Exits on ESC key press.
-            f1_to_start: true, #Starts on F1 key press.
-            show_tips_recursively: false, #To restart annotations display after complete traverse of available annotations.
-            mandatory_all_tips: true, #To show all tips(annotations) at least once (before enabling ESC key for exit).
-            traverse_back: true, #By default 'RIGHT' arrow key is available to visit back but which can be disabled  with a 'false' here.
-            remember_duration: 1 #Duration(in days) in which application need to show familiarity view irrespective whether user has viewed them or not.
+            escape_to_exit: true,           #Exits on ESC key press.
+            f1_to_start: true,              #Starts on F1 key press.
+            show_tips_recursively: false,   #To restart annotations display after complete traverse of available annotations.
+            mandatory_all_tips: true,       #To show all tips(annotations) at least once (before enabling ESC key for exit).
+            traverse_back: true,            #By default 'RIGHT' arrow key is available to visit back but which can be disabled  with a 'false' here.
+            remember_duration: 1            #Duration(in days) in which application need to show familiarity view irrespective whether user has viewed them or not.
         }) %>
 
 
