@@ -7,17 +7,15 @@ require "familiarity/version"
 Gem::Specification.new do |s|
   s.name        = "familiarity"
   s.version     = Familiarity::VERSION
-  s.authors     = ["TODO: Your name"]
-  s.email       = ["TODO: Your email"]
-  s.homepage    = "TODO"
-  s.summary     = "TODO: Summary of Familiarity."
-  s.description = "TODO: Description of Familiarity."
+  s.authors     = ["Praveen Kumar Sinha"]
+  s.email       = ["praveen.kumar.sinha@gmail.com"]
+  s.homepage    = "https://github.com/praveenkumarsinha/familiarity"
+  s.summary     = "Introduce-me step by step"
+  s.description = "A very simple application to give an introduction of page(s) with finger pointing annotations on page elements to make user/visitor familiar to your application."
   s.license     = "MIT"
 
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]
   s.test_files = Dir["test/**/*"]
 
   s.add_dependency "rails", "~> 4.1.6"
-
-  s.add_development_dependency "sqlite3"
 end
