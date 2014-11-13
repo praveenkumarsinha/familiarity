@@ -13,7 +13,7 @@ module Familiarity
           show_tips_recursively: false,
           mandatory_all_tips: true,
           traverse_back: true,
-          remember_duration: 0.001 #In Days
+          remember_duration: 30 #In Days
       }.merge(options)
 
       content_tag('script') do
@@ -23,10 +23,7 @@ module Familiarity
         if (typeof $.cookie(cn) == "undefined")
           {
               familiarity.familiarityView(true);
-              console.log($.cookie(cn, new Date(), {
-                  path: '#{request.path}',
-                  expires: #{_options[:remember_duration]}
-              }));
+              console.log($.cookie(cn, new Date(), { expires: #{_options[:remember_duration]} }));
           }
 END_SQL
       end

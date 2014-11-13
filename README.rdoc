@@ -48,7 +48,7 @@ To provide annotations view of elements, one element at a time on the first visi
             show_tips_recursively: false,   #To restart annotations display after complete traverse of available annotations.
             mandatory_all_tips: true,       #To show all tips(annotations) at least once (before enabling ESC key for exit).
             traverse_back: true,            #By default 'RIGHT' arrow key is available to visit back but which can be disabled  with a 'false' here.
-            remember_duration: 1            #Duration(in days) in which application need to show familiarity view irrespective whether user has viewed them or not.
+            remember_duration: 30           #Duration(in days) in which application need to show familiarity view irrespective whether user has viewed them or not.
         }) %>
 
 
