@@ -1,3 +1,62 @@
-= Familiarity
+= \Familiarity
 
-This project rocks and uses MIT-LICENSE.
+This gem packages a rails engine which provides an interactive demo of features/entities on any given page.
+
+== Installation
+
+Add this line to your application's Gemfile:
+
+    gem 'familiarity', :git => 'git@github.com:praveenkumarsinha/familiarity.git'
+
+Then execute:
+
+    $ bundle
+
+Mount Familiary at specific location (from routes.rb of application):
+
+      mount Familiarity::Engine, at: "/some_specific_location"
+
+Add javascript(s) in applciation manifest (most probably from app/assets/javascripts/application.js):
+
+      //= require familiarity/application
+
+Add stylesheet(s) in applciation manifest (most probably from app/assets/stylesheets/application.css):
+
+       *= require familiarity/application
+
+Add familiarySwitchBoard on all the pages (append following helper at the end as body content in layout):
+
+      <%= familiaritySwitchBoard %>
+
+Add familiaryView on all the pages (append following helper at the end as body content in layout):
+
+      <%= familiarityView %>
+
+== Helpers
+
+To provide a switch board where an user(or may be a bunch of users in any specific environmant of application) want to add/edit/update or delete annotations on any page .
+
+    <%= familiaritySwitchBoard %>
+
+
+To provide annotations view of elements, one element at a time on the first visit of page.
+
+    <%= familiarityView %>
+    <%= familiarityView({
+            escape_to_exit: true, #Exits on ESC key press.
+            f1_to_start: true, #Starts on F1 key press.
+            show_tips_recursively: false, #To restart annotations display after complete traverse of available annotations.
+            mandatory_all_tips: true, #To show all tips(annotations) at least once (before enabling ESC key for exit).
+            traverse_back: true, #By default 'RIGHT' arrow key is available to visit back but which can be disabled  with a 'false' here.
+            remember_duration: 1 #Duration(in days) in which application need to show familiarity view irrespective whether user has viewed them or not.
+        }) %>
+
+
+== Contributing
+
+1. Fork it ( https://github.com/praveenkumarsinha/familiarity/fork )
+2. Create your feature branch (`git checkout -b my-new-feature`)
+3. Commit your changes (`git commit -am 'Add some feature'`)
+4. Push to the branch (`git push origin my-new-feature`)
+5. Create a new Pull Request
+
