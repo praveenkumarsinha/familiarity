@@ -18,13 +18,13 @@ module Familiarity
 
       content_tag('script') do
         raw <<END_SQL
-        var cn = 'familiarity_' + window.location.pathname.replace(/\\//g,'A');
+        var cn = 'familiarity_' + '#{request.path}'.replace(/\\//g,'A');
         var familiarity = new Familiarity(#{_options.to_json});
         if (typeof $.cookie(cn) == "undefined")
           {
               familiarity.familiarityView(true);
               console.log($.cookie(cn, new Date(), {
-                  path: window.location.pathname,
+                  path: '#{request.path}',
                   expires: #{_options[:remember_duration]}
               }));
           }
