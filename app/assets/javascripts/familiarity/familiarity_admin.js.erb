@@ -67,7 +67,7 @@ FamiliarityAdmin.prototype = {
     },
     startFamiliarizing: function () {
         var _current_object = this;
-        $('.familiarityTag').bind("mouseenter.myFamiliarity",function (e) {
+        $('.familiarityTag').bind("mouseenter.myFamiliarity", function (e) {
             var _this = $(this);
             var currentSelectionPath = _this.getPath();
 //            console.log(currentSelectionPath);
@@ -75,25 +75,28 @@ FamiliarityAdmin.prototype = {
             _this.parents().removeClass('familiar-selector');
 
             e.stopImmediatePropagation();
-        }).bind("mouseleave.myFamiliarity",function (e) {
-                    var _this = $(this);
-                    var currentSelectionPath = _this.getPath();
-                    _this.removeClass('familiar-selector');
+        }).bind("mouseleave.myFamiliarity", function (e) {
+            var _this = $(this);
+            var currentSelectionPath = _this.getPath();
+            _this.removeClass('familiar-selector');
 
-                    e.stopImmediatePropagation();
-                }).bind("click.myFamiliarity", function (e) {
-                    var _this = $(this);
-                    var currentSelectionPath = _this.getPath();
+            e.stopImmediatePropagation();
+        }).bind("click.myFamiliarity", function (e) {
+            var _this = $(this);
+            var currentSelectionPath = _this.getPath();
 
-                    var _left_position = _this.position().left;
-                    var _top_position = _this.position().top + _this.height();
+            var _left_position = _this.position().left;
+            var _top_position = _this.position().top + _this.height();
 
-                    var _div = _current_object.findOrBuildPopup(currentSelectionPath).css({left: _left_position, top: _top_position}).show();
+            var _div = _current_object.findOrBuildPopup(currentSelectionPath).css({
+                left: _left_position,
+                top: _top_position
+            }).show().children('textarea').focus();
 
 //                    console.log(_this);
-                    e.preventDefault();
-                    e.stopPropagation();
-                });
+            e.preventDefault();
+            e.stopPropagation();
+        });
     },
 
     saveToBackEnd: function () {
@@ -103,7 +106,10 @@ FamiliarityAdmin.prototype = {
                 _result_hash[k] = v.children('textarea').val();
             }
         })
-        jQuery.post(this.familiaritySaveUrl, {from_page: $(location).attr('pathname'), 'familiarity_hash': _result_hash});
+        jQuery.post(this.familiaritySaveUrl, {
+            from_page: $(location).attr('pathname'),
+            'familiarity_hash': _result_hash
+        });
     },
 
     stopFamiliarizing: function () {
