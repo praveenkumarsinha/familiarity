@@ -57,6 +57,8 @@ Familiarity.prototype = {
         if (this.familiarity_hash_pointer < 0) {
             if (this.show_tips_recursively) {
                 this.familiarity_hash_pointer = this.familiarity_hash_keys().length - 1;
+            } else {
+                this.familiarity_hash_pointer = 0;
             }
         }
         this.showOneByOne();
