@@ -2,7 +2,8 @@ module Familiarity
   module ApplicationHelper
     def familiaritySwitchBoard
       content_tag('script') do
-        raw "$(document).on(\"page:change\", function () {FamiliarityAdmin.familiaritySwitchBoard();});"
+        # raw "$(document).on(\"page:change\", function () {FamiliarityAdmin.familiaritySwitchBoard();});"
+        raw "FamiliarityAdmin.familiaritySwitchBoard();"
       end
     end
 
@@ -17,7 +18,7 @@ module Familiarity
       }.merge(options)
 
       content_tag('script') do
-        raw <<END_SQL
+        raw <<END_SCRIPT
         var cn = 'familiarity_' + '#{request.path}'.replace(/\\//g,'A');
         var familiarity = new Familiarity(#{_options.to_json});
         if (typeof $.cookie(cn) == "undefined")
@@ -25,7 +26,7 @@ module Familiarity
               familiarity.familiarityView(true);
               console.log($.cookie(cn, new Date(), { expires: #{_options[:remember_duration]} }));
           }
-END_SQL
+END_SCRIPT
       end
     end
   end
