@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.email       = ["praveen.kumar.sinha@gmail.com"]
   s.homepage    = "https://github.com/praveenkumarsinha/familiarity"
   s.summary     = "Introduce-me step by step"
-  s.description = "A very simple application to give an introduction of page(s) with finger pointing annotations on page elements to make user/visitor familiar to your application."
+  s.description = "A very simple engine to give an introduction of page(s) with finger pointing annotations on page elements to make user/visitor familiar to your application."
   s.license     = "MIT"
 
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]
