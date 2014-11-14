@@ -32,10 +32,10 @@ FamiliarityAdmin.familiaritySwitchBoard = function () {
 
     var switch_state = 'On';
     $('div.familiaritySwitch').remove();
-    var _div = $('<div class="familiaritySwitch"></div>').text('Switch ' + switch_state + ' familiarity!').click(function () {
+    var _div = $('<div class="familiaritySwitch"></div>').html('<h2>Switch ' + switch_state + ' familiarity!</h2>').click(function () {
         familiarity_admin.familiaritySwitch(switch_state);
         switch_state = (switch_state == "On") ? "Off" : "On";
-        $(this).text('Switch ' + switch_state + ' familiarity!');
+        $(this).html('<h2>Switch ' + switch_state + ' familiarity!</h2>');
     }).appendTo($('body'));
 }
 
