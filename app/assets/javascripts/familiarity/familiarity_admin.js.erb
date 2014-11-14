@@ -32,10 +32,10 @@ FamiliarityAdmin.familiaritySwitchBoard = function () {
 
     var switch_state = 'On';
     $('div.familiaritySwitch').remove();
-    var _div = $('<div class="familiaritySwitch"></div>').html('<h2>Switch ' + switch_state + ' familiarity!</h2>').click(function () {
+    var _div = $('<div class="familiaritySwitch"></div>').html('<div class="text_content">Switch ' + switch_state + ' familiarity!</div>').click(function () {
         familiarity_admin.familiaritySwitch(switch_state);
         switch_state = (switch_state == "On") ? "Off" : "On";
-        $(this).html('<h2>Switch ' + switch_state + ' familiarity!</h2>');
+        $(this).html('<div class="text_content">Switch ' + switch_state + ' familiarity!</div>');
     }).appendTo($('body'));
 }
 
@@ -46,7 +46,7 @@ FamiliarityAdmin.prototype = {
         }
         var _div = this.familiarityEditorialSet[selection_path];
         if (_div == null) {
-            var _div = $('<div class="familiarityPopUpEdit" style="z-index: 20;position: absolute;left: 0;top: 0;display: none"><textarea placeholder="Short sweet tutorial goes in here."></textarea><br/><a>Close</a></div>');
+            var _div = $('<div class="familiarityPopUpEdit" style="z-index: 20;position: absolute;left: 0;top: 0;display: none"><textarea class="textarea_class" placeholder="Short sweet tutorial goes in here."></textarea><br/><a class="a_class">Close</a></div>');
 
             //Adding 'Close' handler
             _div.children('a').click(function () {

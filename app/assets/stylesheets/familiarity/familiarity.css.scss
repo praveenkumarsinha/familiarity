@@ -9,16 +9,16 @@
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#666666', endColorstr='#131313', GradientType=0); /* ie */
 
   border-radius: 15px;
-  bottom: 5px;
+  bottom: 10px;
+  right: 10px;
   box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.8);
   cursor: pointer;
   height: 30px;
   position: fixed;
-  right: 5px;
   width: 180px;
   z-index: 1000;
 
-  h2 {
+  .text_content {
     color: #eeeeee;
     font-family: Helvetica, sans-serif;
     font-size: 14px;
@@ -53,7 +53,7 @@
 
 .familiarityPopUpEdit {
 
-  textarea {
+  .textarea_class {
     border: 5px solid #ccc;
     border-radius: 13px;
     font-family: verdana;
@@ -62,6 +62,7 @@
     padding: 5px;
     width: 350px;
     background-color: #eef0f0;
+    margin: 0;
     &:focus {
       border: 5px solid #ccc;
       border-radius: 13px;
@@ -73,7 +74,7 @@
       background-color: #fff;
     }
   }
-  a {
+  .a_class {
     background-color: #777777;
     border: 5px solid #ccc;
     border-radius: 10px;
@@ -85,7 +86,8 @@
     padding: 5px;
     position: relative;
     text-transform: uppercase;
-    top: -122px;
+    top: -123px;
+    margin: 0;
     &:hover {
       color: #fff !important;
     }
