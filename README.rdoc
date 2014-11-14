@@ -6,7 +6,7 @@ This gem packages a rails engine which provides an interactive demo of features/
 
 Add this line to your application's Gemfile:
 
-    gem 'familiarity', :git => 'git@github.com:praveenkumarsinha/familiarity.git'
+    gem 'familiarity'
 
 Then execute:
 
