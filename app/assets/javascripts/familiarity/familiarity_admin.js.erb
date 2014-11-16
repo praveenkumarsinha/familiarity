@@ -1,33 +1,10 @@
-jQuery.fn.getPath = function () {
-    if (this.length != 1) throw 'Requires one element.';
-
-    var path, node = this;
-    while (node.length) {
-        var realNode = node[0], name = realNode.localName;
-        if (!name) break;
-        name = name.toLowerCase();
-
-        var parent = node.parent();
-
-        var siblings = parent.children(name);
-        if (siblings.length > 1) {
-            name += ':eq(' + siblings.index(realNode) + ')';
-        }
-
-        path = name + (path ? '>' + path : '');
-        node = parent;
-    }
-
-    return path;
-};
-
 var FamiliarityAdmin = function () {
     this.familiarityEditorialSet = {};
     this.familiaritySaveUrl = '<%=Familiarity::Engine.routes.url_helpers.save_familiarities_path(format: :json)%>';
     this.familiaritiesUrl = '<%= Familiarity::Engine.routes.url_helpers.familiarities_path(format: :json) %>';
 }
 
-FamiliarityAdmin.familiaritySwitchBoard = function () {
+FamiliarityAdmin.familiaritySwitchBoard = function (options) {
     var familiarity_admin = new FamiliarityAdmin();
 
     var switch_state = 'On';
@@ -36,7 +13,7 @@ FamiliarityAdmin.familiaritySwitchBoard = function () {
         familiarity_admin.familiaritySwitch(switch_state);
         switch_state = (switch_state == "On") ? "Off" : "On";
         $(this).html('<div class="text_content">Switch ' + switch_state + ' familiarity!</div>');
-    }).appendTo($('body'));
+    }).appendTo($('body')).addClass("fs_"+options.position);
 }
 
 FamiliarityAdmin.prototype = {

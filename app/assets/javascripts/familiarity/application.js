@@ -10,6 +10,7 @@
 // Read Sprockets README (https://github.com/sstephenson/sprockets#sprockets-directives) for details
 // about supported directives.
 //
+//= require ../familiarity/jquery.getpath
 //= require ../familiarity/jquery.cookie
 //= require ../familiarity/jquery.tooltipster
 //= require_tree .

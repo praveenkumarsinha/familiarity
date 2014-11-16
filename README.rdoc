@@ -37,6 +37,7 @@ Add familiarity's view on all the pages (append following helper at the end as b
 To provide a switch board where an user (or may be a bunch of users in any specific environment of application) want to add/edit/update or delete annotations on any page .
 
     <%= familiaritySwitchBoard %>
+    <%= familiaritySwitchBoard(position: 'topLeft') %> #Possible options are topLeft, topRight, bottomRight(default) and bottomLeft
 
 
 To provide annotations view of elements, one element at a time on the first visit of page.

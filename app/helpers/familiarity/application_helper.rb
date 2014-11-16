@@ -1,9 +1,14 @@
 module Familiarity
   module ApplicationHelper
-    def familiaritySwitchBoard
+
+    def familiaritySwitchBoard(options={})
+      _options= {
+          position: 'bottomLeft' # Options are, topLeft, topRight, bottomRight, bottomLeft
+      }.merge(options)
+
       content_tag('script') do
-        # raw "$(document).on(\"page:change\", function () {FamiliarityAdmin.familiaritySwitchBoard();});"
-        raw "FamiliarityAdmin.familiaritySwitchBoard();"
+        # raw "$(document).on(\"page:change\", function () {FamiliarityAdmin.familiaritySwitchBoard(#{_options.to_json});});"
+        raw "FamiliarityAdmin.familiaritySwitchBoard(#{_options.to_json});"
       end
     end
 
