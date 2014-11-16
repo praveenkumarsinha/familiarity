@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    familiarity (0.2.1)
+    familiarity (0.2.2)
       jquery-rails (>= 3.0.4)
       rails (>= 4.0.8)
 

@@ -44,7 +44,7 @@ To provide annotations view of elements, one element at a time on the first visi
     <%= familiarityView %>
     <%= familiarityView({
             escape_to_exit: true,           #Exits on ESC key press.
-            f1_to_start: true,              #Starts on F1 key press.
+            f1_to_start: true,              #Starts on F1 key press. In Chromium based browser Ctrl+F1 key press
             show_tips_recursively: false,   #To restart annotations display after complete traverse of available annotations.
             mandatory_all_tips: true,       #To show all tips(annotations) at least once (before enabling ESC key for exit).
             traverse_back: true,            #By default 'LEFT' arrow key is available to visit back but which can be disabled  with a 'false' here.

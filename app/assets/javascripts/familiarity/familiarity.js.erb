@@ -169,7 +169,7 @@ Familiarity.prototype = {
 }
 
 $(document).on("page:change", function () {
-// Show and hide on F1 and ESC key respectively
+// Show and hide on F1(Ctrl +F1 on chrome) and ESC key respectively
     $('body').keyup(function (e) {
         var _this = Familiarity.getCurrentObject();
         if (typeof(_this) != "undefined" && e.keyCode == 27 && _this.escape_to_exit && _this.familiarityRenderedFlag) { //ESC key pressed
